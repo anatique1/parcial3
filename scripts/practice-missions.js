@@ -22,9 +22,17 @@ La misión se cerrará cuando la rama \`develop\` exista en GitHub.`
 - Modifica únicamente el encabezado de \`index.html\`.
 
 ## Cambios exactos en index.html
-- En el \`<header>\`, cambia el \`<h1>\` para que diga exactamente: \`Oficina Nacional de Excusas Técnicas\`.
-- En el \`<header>\`, cambia el párrafo con clase \`intro\` para que diga exactamente: \`Donde cada bug encuentra una explicación convincente.\`
-- En el \`<header>\`, cambia el botón con \`id="boton-hero"\` para que diga exactamente: \`Solicitar excusa urgente\`.
+- Reemplaza el bloque \`<header>...</header>\` actual por este bloque:
+
+~~~html
+<header>
+  <h1>Oficina Nacional de Excusas Técnicas</h1>
+  <p class="intro">Donde cada bug encuentra una explicación convincente.</p>
+  <div class="actions">
+    <button id="boton-hero" type="button">Solicitar excusa urgente</button>
+  </div>
+</header>
+~~~
 
 ## Anotaciones importantes
 - No agregues todavía el catálogo de excusas.
@@ -57,17 +65,44 @@ La misión se cerrará cuando el Pull Request solicitado esté fusionado.`
 - Modifica \`index.html\` para agregar un catálogo de excusas.
 
 ## Cambios exactos en index.html
-- Dentro de \`<main>\`, después de la sección con \`id="aviso-inicial"\`, agrega una sección con \`id="catalogo-excusas"\`.
-- Dentro de \`#catalogo-excusas\`, agrega al menos cuatro tarjetas.
-- Cada tarjeta debe tener la clase \`excusa-card\`.
-- Cada tarjeta debe tener un título visible en un \`<h3>\`.
-- Cada tarjeta debe tener una descripción visible en un \`<p>\`.
-- Cada tarjeta debe incluir una etiqueta visible que empiece con \`Gravedad:\`.
-- Deben aparecer estas cuatro excusas como títulos de tarjetas:
-  - \`El servidor estaba reflexionando\`
-  - \`Funciona en mi máquina\`
-  - \`El CSS tomó decisiones propias\`
-  - \`Producción no estaba emocionalmente preparada\`
+- Dentro de \`<main>\`, busca este final del bloque de aviso inicial:
+
+~~~html
+      </section>
+    </main>
+~~~
+
+- Entre esas dos líneas, agrega exactamente este bloque:
+
+~~~html
+      <section id="catalogo-excusas">
+        <h2>Catálogo de excusas aprobadas</h2>
+
+        <article class="excusa-card">
+          <h3>El servidor estaba reflexionando</h3>
+          <p>La respuesta tardó porque el servidor necesitaba pensar en sus decisiones.</p>
+          <span>Gravedad: media</span>
+        </article>
+
+        <article class="excusa-card">
+          <h3>Funciona en mi máquina</h3>
+          <p>El comportamiento fue validado en un entorno emocionalmente estable.</p>
+          <span>Gravedad: clásica</span>
+        </article>
+
+        <article class="excusa-card">
+          <h3>El CSS tomó decisiones propias</h3>
+          <p>La interfaz interpretó la libertad creativa de una forma inesperada.</p>
+          <span>Gravedad: visual</span>
+        </article>
+
+        <article class="excusa-card">
+          <h3>Producción no estaba emocionalmente preparada</h3>
+          <p>El despliegue llegó antes de que producción pudiera procesar el cambio.</p>
+          <span>Gravedad: urgente</span>
+        </article>
+      </section>
+~~~
 
 ## Anotaciones importantes
 - No agregues todavía el formulario.
@@ -83,10 +118,17 @@ La misión se cerrará cuando la rama solicitada tenga el catálogo con las tarj
     title: "Proteger un cambio temporal",
     body: `## Lo que debes realizar
 - Trabaja sobre \`feature/catalogo-excusas\`.
-- En \`index.html\`, crea de forma temporal un texto visible que diga exactamente: \`BORRADOR TEMPORAL DE EXCUSA\`.
+- En \`index.html\`, crea de forma temporal este texto visible: \`BORRADOR TEMPORAL DE EXCUSA\`.
 - Protege ese cambio fuera del historial antes de continuar.
 - El texto \`BORRADOR TEMPORAL DE EXCUSA\` no debe quedar publicado en el HTML final.
 - Cuando termines, comenta en este issue exactamente: \`cambio temporal protegido\`.
+
+## Cambio temporal exacto en index.html
+- Puedes poner temporalmente esta línea dentro de \`#catalogo-excusas\`:
+
+~~~html
+<p>BORRADOR TEMPORAL DE EXCUSA</p>
+~~~
 
 ## Anotaciones importantes
 - No agregues el formulario.
@@ -104,12 +146,45 @@ La misión se cerrará cuando exista el comentario exacto solicitado en este iss
 - Modifica \`index.html\` para agregar un formulario de solicitud de excusas.
 
 ## Cambios exactos en index.html
-- Dentro de \`<main>\`, después de la sección \`#catalogo-excusas\`, agrega un formulario con \`id="formulario-excusa"\`.
-- El formulario debe tener un campo obligatorio con \`name="nombre"\`.
-- El formulario debe tener un campo obligatorio con \`name="tipo-problema"\`.
-- El formulario debe tener un campo obligatorio con \`name="nivel-urgencia"\`.
-- El formulario debe tener un campo obligatorio con \`name="descripcion-desastre"\`.
-- El botón final del formulario debe decir exactamente: \`Enviar excusa al comité\`.
+- Dentro de \`<main>\`, antes de la etiqueta de cierre \`</main>\`, agrega exactamente este bloque:
+
+~~~html
+      <form id="formulario-excusa">
+        <h2>Solicitud de excusa técnica</h2>
+
+        <label>
+          Nombre
+          <input type="text" name="nombre" required>
+        </label>
+
+        <label>
+          Tipo de problema
+          <select name="tipo-problema" required>
+            <option value="">Selecciona una opción</option>
+            <option value="bug">Bug misterioso</option>
+            <option value="deploy">Deploy dramático</option>
+            <option value="css">CSS rebelde</option>
+          </select>
+        </label>
+
+        <label>
+          Nivel de urgencia
+          <select name="nivel-urgencia" required>
+            <option value="">Selecciona una opción</option>
+            <option value="baja">Baja</option>
+            <option value="media">Media</option>
+            <option value="alta">Alta</option>
+          </select>
+        </label>
+
+        <label>
+          Descripción del desastre
+          <textarea name="descripcion-desastre" required></textarea>
+        </label>
+
+        <button type="submit">Enviar excusa al comité</button>
+      </form>
+~~~
 
 ## Anotaciones importantes
 - No agregues todavía la sección de versión final.
@@ -144,9 +219,14 @@ La misión se cerrará cuando ambos Pull Requests solicitados estén fusionados 
 - Modifica \`index.html\` para agregar una sección final de revisión.
 
 ## Cambios exactos en index.html
-- Dentro de \`<main>\`, después del formulario \`#formulario-excusa\`, agrega una sección con \`id="version-final"\`.
-- La sección \`#version-final\` debe contener exactamente el texto: \`Versión 1.0.0\`.
-- La sección \`#version-final\` debe indicar que la versión está lista para revisión.
+- Dentro de \`<main>\`, antes de la etiqueta de cierre \`</main>\`, agrega exactamente este bloque:
+
+~~~html
+      <section id="version-final">
+        <h2>Versión 1.0.0</h2>
+        <p>La versión está lista para revisión.</p>
+      </section>
+~~~
 
 ## Anotaciones importantes
 - No cambies el encabezado aprobado.
@@ -179,7 +259,13 @@ La misión se cerrará cuando el Pull Request solicitado esté fusionado hacia \
 - Modifica únicamente el texto incorrecto del botón del pie de página.
 
 ## Cambio exacto en index.html
-- En el \`<footer>\`, cambia el botón con \`id="boton-envio-rapido"\` de \`Enbiar excusa\` a exactamente: \`Enviar excusa\`.
+- En el \`<footer>\`, reemplaza el bloque actual por este bloque:
+
+~~~html
+<footer>
+  <button id="boton-envio-rapido" type="button">Enviar excusa</button>
+</footer>
+~~~
 
 ## Anotaciones importantes
 - No cambies el encabezado.
