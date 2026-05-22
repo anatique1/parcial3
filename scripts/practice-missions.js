@@ -4,250 +4,205 @@ export const missions = [
   {
     id: 1,
     title: "Crear rama develop",
-    summary: "Crearás la línea de integración del examen.",
-    why: "`develop` concentra el trabajo aprobado antes de preparar una versión estable.",
-    body: `## Objetivo
-Dejar disponible la rama de integración llamada \`develop\`.
+    body: `## Lo que debes realizar
+- Debe existir una rama llamada \`develop\` publicada en GitHub.
 
-## Cambios permitidos
-- No edites archivos para esta misión.
+## Anotaciones importantes
+- No edites archivos en esta misión.
 - No adelantes cambios de HTML.
 
 ## Criterio de cierre
-La misión se cerrará cuando exista la rama \`develop\` publicada en GitHub.`
+La misión se cerrará cuando la rama \`develop\` exista en GitHub.`
   },
   {
     id: 2,
     title: "Actualizar encabezado de excusas",
-    summary: "Modificarás únicamente el encabezado principal de la página.",
-    why: "Una rama de feature debe contener un cambio concreto y fácil de revisar.",
-    body: `## Objetivo
-Actualizar el encabezado de \`index.html\` para presentar la oficina ficticia del examen.
+    body: `## Lo que debes realizar
+- Trabaja en la rama \`feature/hero-excusas\`.
+- Modifica únicamente el encabezado de \`index.html\`.
 
-## Rama esperada
-\`feature/hero-excusas\`
+## Cambios exactos en index.html
+- En el \`<header>\`, cambia el \`<h1>\` para que diga exactamente: \`Oficina Nacional de Excusas Técnicas\`.
+- En el \`<header>\`, cambia el párrafo con clase \`intro\` para que diga exactamente: \`Donde cada bug encuentra una explicación convincente.\`
+- En el \`<header>\`, cambia el botón con \`id="boton-hero"\` para que diga exactamente: \`Solicitar excusa urgente\`.
 
-## Cambios obligatorios en index.html
-- Cambia el título principal visible a exactamente: \`Oficina Nacional de Excusas Técnicas\`.
-- Cambia o agrega un subtítulo visible con exactamente: \`Donde cada bug encuentra una explicación convincente.\`
-- Cambia el botón principal del encabezado para que diga exactamente: \`Solicitar excusa urgente\`.
-
-## Cambios no permitidos en esta misión
+## Anotaciones importantes
 - No agregues todavía el catálogo de excusas.
 - No agregues todavía el formulario.
 - No agregues todavía la sección de versión final.
 - No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
 
 ## Criterio de cierre
-La misión se cerrará cuando el cambio esté publicado en la rama esperada y el HTML tenga exactamente los textos solicitados.`
+La misión se cerrará cuando el cambio esté publicado en la rama solicitada y el HTML tenga exactamente los textos pedidos.`
   },
   {
     id: 3,
     title: "Integrar encabezado en develop",
-    summary: "Integrarás la feature del encabezado mediante Pull Request.",
-    why: "El Pull Request deja evidencia de revisión antes de mezclar cambios en la línea de integración.",
-    body: `## Objetivo
-Integrar el encabezado actualizado en \`develop\`.
+    body: `## Lo que debes realizar
+- Debe existir un Pull Request desde \`feature/hero-excusas\` hacia \`develop\`.
+- Ese Pull Request debe quedar fusionado.
 
-## Pull Request esperado
-- Origen: \`feature/hero-excusas\`
-- Destino: \`develop\`
-
-## Cambios no permitidos en esta misión
-- No agregues cambios nuevos al HTML durante la integración.
-- No mezcles otras ramas en este Pull Request.
+## Anotaciones importantes
+- No agregues cambios nuevos al HTML durante esta integración.
+- No mezcles ramas distintas a las solicitadas.
 
 ## Criterio de cierre
-La misión se cerrará cuando el Pull Request esperado esté fusionado.`
+La misión se cerrará cuando el Pull Request solicitado esté fusionado.`
   },
   {
     id: 4,
     title: "Crear catálogo de excusas",
-    summary: "Agregarás una sección con tarjetas de excusas técnicas.",
-    why: "Las features deben agrupar trabajo relacionado sin mezclar responsabilidades.",
-    body: `## Objetivo
-Agregar a \`index.html\` un catálogo visible de excusas técnicas.
+    body: `## Lo que debes realizar
+- Trabaja en la rama \`feature/catalogo-excusas\`.
+- Modifica \`index.html\` para agregar un catálogo de excusas.
 
-## Rama esperada
-\`feature/catalogo-excusas\`
-
-## Cambios obligatorios en index.html
-- Agrega una sección con \`id="catalogo-excusas"\`.
-- Dentro de esa sección, agrega al menos cuatro tarjetas.
-- Cada tarjeta debe usar la clase \`excusa-card\`.
-- Cada tarjeta debe tener un título visible.
-- Cada tarjeta debe tener una descripción visible.
+## Cambios exactos en index.html
+- Dentro de \`<main>\`, después de la sección con \`id="aviso-inicial"\`, agrega una sección con \`id="catalogo-excusas"\`.
+- Dentro de \`#catalogo-excusas\`, agrega al menos cuatro tarjetas.
+- Cada tarjeta debe tener la clase \`excusa-card\`.
+- Cada tarjeta debe tener un título visible en un \`<h3>\`.
+- Cada tarjeta debe tener una descripción visible en un \`<p>\`.
 - Cada tarjeta debe incluir una etiqueta visible que empiece con \`Gravedad:\`.
-- Deben aparecer estas cuatro excusas:
+- Deben aparecer estas cuatro excusas como títulos de tarjetas:
   - \`El servidor estaba reflexionando\`
   - \`Funciona en mi máquina\`
   - \`El CSS tomó decisiones propias\`
   - \`Producción no estaba emocionalmente preparada\`
 
-## Cambios no permitidos en esta misión
+## Anotaciones importantes
 - No agregues todavía el formulario.
 - No agregues todavía la sección de versión final.
 - No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
-- No cambies textos del encabezado si ya fueron aprobados.
+- No cambies los textos del encabezado si ya fueron aprobados.
 
 ## Criterio de cierre
-La misión se cerrará cuando la rama esperada tenga el catálogo con las tarjetas requeridas.`
+La misión se cerrará cuando la rama solicitada tenga el catálogo con las tarjetas requeridas.`
   },
   {
     id: 5,
     title: "Proteger un cambio temporal",
-    summary: "Practicarás un cambio de contexto sin convertir un borrador en historial.",
-    why: "En Git Flow es común pausar trabajo incompleto antes de cambiar de rama o continuar otra tarea.",
-    body: `## Objetivo
-Demostrar que sabes proteger un cambio temporal sin publicarlo como parte del historial.
-
-## Rama esperada
-\`feature/catalogo-excusas\`
-
-## Cambio temporal solicitado
+    body: `## Lo que debes realizar
+- Trabaja sobre \`feature/catalogo-excusas\`.
 - En \`index.html\`, crea de forma temporal un texto visible que diga exactamente: \`BORRADOR TEMPORAL DE EXCUSA\`.
 - Protege ese cambio fuera del historial antes de continuar.
-- El texto temporal no debe quedar publicado como parte del HTML final.
+- El texto \`BORRADOR TEMPORAL DE EXCUSA\` no debe quedar publicado en el HTML final.
 - Cuando termines, comenta en este issue exactamente: \`cambio temporal protegido\`.
 
-## Cambios no permitidos en esta misión
+## Anotaciones importantes
 - No agregues el formulario.
 - No agregues la sección de versión final.
 - No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
 
 ## Criterio de cierre
-La misión se cerrará cuando exista la evidencia solicitada en el comentario del issue.`
+La misión se cerrará cuando exista el comentario exacto solicitado en este issue.`
   },
   {
     id: 6,
     title: "Agregar formulario de solicitud",
-    summary: "Agregarás un formulario para pedir excusas técnicas.",
-    why: "Una segunda feature permite comprobar que el flujo mantiene cambios separados antes de integrarlos.",
-    body: `## Objetivo
-Agregar a \`index.html\` un formulario visible de solicitud de excusas.
+    body: `## Lo que debes realizar
+- Trabaja en la rama \`feature/formulario-excusa\`.
+- Modifica \`index.html\` para agregar un formulario de solicitud de excusas.
 
-## Rama esperada
-\`feature/formulario-excusa\`
-
-## Cambios obligatorios en index.html
-- Agrega un formulario con \`id="formulario-excusa"\`.
+## Cambios exactos en index.html
+- Dentro de \`<main>\`, después de la sección \`#catalogo-excusas\`, agrega un formulario con \`id="formulario-excusa"\`.
 - El formulario debe tener un campo obligatorio con \`name="nombre"\`.
 - El formulario debe tener un campo obligatorio con \`name="tipo-problema"\`.
 - El formulario debe tener un campo obligatorio con \`name="nivel-urgencia"\`.
 - El formulario debe tener un campo obligatorio con \`name="descripcion-desastre"\`.
 - El botón final del formulario debe decir exactamente: \`Enviar excusa al comité\`.
 
-## Cambios no permitidos en esta misión
+## Anotaciones importantes
 - No agregues todavía la sección de versión final.
 - No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
 - No cambies el catálogo si ya fue aprobado.
 
 ## Criterio de cierre
-La misión se cerrará cuando la rama esperada tenga el formulario con los campos requeridos.`
+La misión se cerrará cuando la rama solicitada tenga el formulario con los campos requeridos.`
   },
   {
     id: 7,
     title: "Integrar catálogo y formulario",
-    summary: "Fusionarás las features restantes hacia develop.",
-    why: "`develop` debe reunir las features aprobadas antes de crear una release.",
-    body: `## Objetivo
-Integrar en \`develop\` el catálogo de excusas y el formulario de solicitud.
+    body: `## Lo que debes realizar
+- Debe existir un Pull Request desde \`feature/catalogo-excusas\` hacia \`develop\`.
+- El Pull Request de \`feature/catalogo-excusas\` hacia \`develop\` debe quedar fusionado.
+- Debe existir un Pull Request desde \`feature/formulario-excusa\` hacia \`develop\`.
+- El Pull Request de \`feature/formulario-excusa\` hacia \`develop\` debe quedar fusionado.
 
-## Pull Requests esperados
-- Origen: \`feature/catalogo-excusas\`; destino: \`develop\`.
-- Origen: \`feature/formulario-excusa\`; destino: \`develop\`.
-
-## Cambios no permitidos en esta misión
-- No agregues cambios nuevos al HTML durante la integración.
-- No mezcles ramas distintas a las esperadas.
+## Anotaciones importantes
+- No agregues cambios nuevos al HTML durante esta integración.
+- No mezcles ramas distintas a las solicitadas.
 - No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
 
 ## Criterio de cierre
-La misión se cerrará cuando ambos Pull Requests esperados estén fusionados hacia \`develop\`.`
+La misión se cerrará cuando ambos Pull Requests solicitados estén fusionados hacia \`develop\`.`
   },
   {
     id: 8,
     title: "Preparar versión final",
-    summary: "Crearás la release y agregarás una sección final de revisión.",
-    why: "La rama de release congela una versión candidata antes de llevarla a producción.",
-    body: `## Objetivo
-Preparar la versión candidata del HTML.
+    body: `## Lo que debes realizar
+- Trabaja en la rama \`release/v1.0.0\`.
+- Modifica \`index.html\` para agregar una sección final de revisión.
 
-## Rama esperada
-\`release/v1.0.0\`
+## Cambios exactos en index.html
+- Dentro de \`<main>\`, después del formulario \`#formulario-excusa\`, agrega una sección con \`id="version-final"\`.
+- La sección \`#version-final\` debe contener exactamente el texto: \`Versión 1.0.0\`.
+- La sección \`#version-final\` debe indicar que la versión está lista para revisión.
 
-## Cambios obligatorios en index.html
-- Agrega una sección con \`id="version-final"\`.
-- La sección debe contener exactamente el texto: \`Versión 1.0.0\`.
-- La sección debe indicar que la versión está lista para revisión.
-
-## Cambios no permitidos en esta misión
+## Anotaciones importantes
 - No cambies el encabezado aprobado.
 - No cambies el catálogo aprobado.
 - No cambies el formulario aprobado.
 - No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
 
 ## Criterio de cierre
-La misión se cerrará cuando la rama de release exista y el HTML tenga la sección final requerida.`
+La misión se cerrará cuando la rama solicitada exista y el HTML tenga la sección final requerida.`
   },
   {
     id: 9,
     title: "Publicar release en main",
-    summary: "Llevarás la versión candidata a la rama estable.",
-    why: "`main` debe recibir únicamente cambios listos para entrega.",
-    body: `## Objetivo
-Integrar la versión candidata en \`main\`.
+    body: `## Lo que debes realizar
+- Debe existir un Pull Request desde \`release/v1.0.0\` hacia \`main\`.
+- Ese Pull Request debe quedar fusionado.
 
-## Pull Request esperado
-- Origen: \`release/v1.0.0\`
-- Destino: \`main\`
-
-## Cambios no permitidos en esta misión
-- No agregues cambios nuevos al HTML durante la integración.
-- No uses una rama distinta a la release esperada.
+## Anotaciones importantes
+- No agregues cambios nuevos al HTML durante esta integración.
+- No uses una rama distinta a la solicitada.
 
 ## Criterio de cierre
-La misión se cerrará cuando el Pull Request esperado esté fusionado hacia \`main\`.`
+La misión se cerrará cuando el Pull Request solicitado esté fusionado hacia \`main\`.`
   },
   {
     id: 10,
     title: "Corregir botón de emergencia",
-    summary: "Aplicarás un hotfix pequeño sobre un error visible.",
-    why: "Un hotfix debe corregir un problema puntual desde la versión estable.",
-    body: `## Objetivo
-Corregir un error de texto en el botón del pie de página.
+    body: `## Lo que debes realizar
+- Trabaja en la rama \`hotfix/texto-boton\`.
+- Modifica únicamente el texto incorrecto del botón del pie de página.
 
-## Rama esperada
-\`hotfix/texto-boton\`
+## Cambio exacto en index.html
+- En el \`<footer>\`, cambia el botón con \`id="boton-envio-rapido"\` de \`Enbiar excusa\` a exactamente: \`Enviar excusa\`.
 
-## Cambio obligatorio en index.html
-- Corrige el texto \`Enbiar excusa\` para que diga exactamente: \`Enviar excusa\`.
-
-## Cambios no permitidos en esta misión
+## Anotaciones importantes
 - No cambies el encabezado.
 - No cambies el catálogo.
 - No cambies el formulario.
 - No cambies la sección de versión final.
-- No hagas cambios de estilo o estructura que no sean necesarios para esta corrección.
+- No hagas cambios de estilo o estructura para esta corrección.
 
 ## Criterio de cierre
-La misión se cerrará cuando la rama esperada tenga una corrección pequeña y el texto incorrecto ya no aparezca.`
+La misión se cerrará cuando la rama solicitada tenga una corrección pequeña y el texto incorrecto ya no aparezca.`
   },
   {
     id: 11,
     title: "Integrar hotfix en main y develop",
-    summary: "Cerrarás el hotfix sin perder la corrección en la línea de desarrollo.",
-    why: "Un hotfix que solo llega a `main` puede reaparecer cuando `develop` se publique más adelante.",
-    body: `## Objetivo
-Integrar la corrección urgente tanto en \`main\` como en \`develop\`.
+    body: `## Lo que debes realizar
+- Debe existir un Pull Request desde \`hotfix/texto-boton\` hacia \`main\`.
+- El Pull Request de \`hotfix/texto-boton\` hacia \`main\` debe quedar fusionado.
+- Debe existir un Pull Request desde \`hotfix/texto-boton\` hacia \`develop\`.
+- El Pull Request de \`hotfix/texto-boton\` hacia \`develop\` debe quedar fusionado.
 
-## Pull Requests esperados
-- Origen: \`hotfix/texto-boton\`; destino: \`main\`.
-- Origen: \`hotfix/texto-boton\`; destino: \`develop\`.
-
-## Cambios no permitidos en esta misión
-- No agregues cambios nuevos al HTML durante la integración.
-- No mezcles ramas distintas a las esperadas.
+## Anotaciones importantes
+- No agregues cambios nuevos al HTML durante esta integración.
+- No mezcles ramas distintas a las solicitadas.
 
 ## Criterio de cierre
 Esta es la última misión. Se cerrará cuando el hotfix esté fusionado hacia \`main\` y hacia \`develop\`.`
@@ -269,22 +224,13 @@ export function missionIssueTitle(mission) {
 export function missionIssueBody(mission) {
   return `${missionMarker(mission.id)}
 
-## Resumen rápido
-- **Qué harás:** ${mission.summary}
-- **Por qué importa:** ${mission.why}
-
-## Regla de alcance del examen
-Modifica solo lo solicitado en esta misión. No adelantes trabajo de misiones futuras, no reestructures la página completa y no agregues cambios "de paso". Si una misión pide integración, integra únicamente las ramas indicadas.
+## Regla de alcance
+Modifica solo lo solicitado en esta misión. No adelantes trabajo de misiones futuras, no reestructures la página completa y no agregues cambios adicionales.
 
 ${mission.body}
 
-## Seguimiento automático
-Cuando avances, el workflow **Validar progreso de misiones** revisará criterios verificables. Si cumple, comentará el resultado, cerrará este issue y creará la siguiente misión. Si no cumple todavía, dejará una revisión breve de lo pendiente.
-
-No cierres este issue manualmente. Si se cierra desde la interfaz de GitHub o desde un Pull Request, el workflow **Proteger cierre de misiones** lo reabrirá.
-
----
-Examen de Git Flow. Identificador interno: misión ${mission.id}.`;
+## Cierre automático
+No cierres este issue manualmente.`;
 }
 
 export function getMissionById(id) {

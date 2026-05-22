@@ -462,8 +462,6 @@ function formatFeedback(mission, validation, statusText) {
 
 **Estado:** ${statusText}
 
-**Qué se evalúa:** ${mission.summary}
-
 ### Revisión
 ${formatChecks(validation.checks)}
 
