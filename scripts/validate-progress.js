@@ -361,32 +361,42 @@ async function evaluateMission(mission, issue, context) {
     }
 
     case 6: {
+      const merged = await hasMergedPull(context, "feature/catalogo-excusas", "develop");
+      const currentPull = payload?.pull_request;
+      const correctPull = currentPull?.head?.ref === "feature/catalogo-excusas" && currentPull?.base?.ref === "develop";
       const checks = [
-        check(refName === "feature/formulario-excusa", "El avance ocurre en feature/formulario-excusa", "Publica este cambio desde la rama esperada."),
-        check(indexWasTouched(issue, payload), "index.html fue modificado después de abrir esta misión", "Modifica `index.html` con el formulario solicitado."),
-        ...validateForm(html, { strictScope: true })
+        check(merged || correctPull, "Existe un Pull Request de feature/catalogo-excusas hacia develop", "El Pull Request debe tener el origen y destino esperados."),
+        check(merged, "El Pull Request del catálogo ya fue fusionado", "Fusiona el Pull Request cuando esté listo.")
       ];
 
       return result({ mission, passed: checks.every((item) => item.ok), checks });
     }
 
     case 7: {
-      const catalogMerged = await hasMergedPull(context, "feature/catalogo-excusas", "develop");
-      const formMerged = await hasMergedPull(context, "feature/formulario-excusa", "develop");
-      const currentPull = payload?.pull_request;
-      const currentCatalogPull = currentPull?.head?.ref === "feature/catalogo-excusas" && currentPull?.base?.ref === "develop";
-      const currentFormPull = currentPull?.head?.ref === "feature/formulario-excusa" && currentPull?.base?.ref === "develop";
       const checks = [
-        check(catalogMerged || currentCatalogPull, "Existe integración del catálogo hacia develop", "Integra `feature/catalogo-excusas` hacia `develop`."),
-        check(catalogMerged, "El Pull Request del catálogo ya fue fusionado", "Fusiona el Pull Request del catálogo cuando esté listo."),
-        check(formMerged || currentFormPull, "Existe integración del formulario hacia develop", "Integra `feature/formulario-excusa` hacia `develop`."),
-        check(formMerged, "El Pull Request del formulario ya fue fusionado", "Fusiona el Pull Request del formulario cuando esté listo.")
+        check(refName === "feature/formulario-excusa", "El avance ocurre en feature/formulario-excusa", "Publica este cambio desde la rama esperada."),
+        check(indexWasTouched(issue, payload), "index.html fue modificado después de abrir esta misión", "Modifica `index.html` con el formulario solicitado."),
+        ...validateCatalog(html),
+        ...validateCatalogNote(html),
+        ...validateForm(html, { strictScope: true })
       ];
 
       return result({ mission, passed: checks.every((item) => item.ok), checks });
     }
 
     case 8: {
+      const formMerged = await hasMergedPull(context, "feature/formulario-excusa", "develop");
+      const currentPull = payload?.pull_request;
+      const currentFormPull = currentPull?.head?.ref === "feature/formulario-excusa" && currentPull?.base?.ref === "develop";
+      const checks = [
+        check(formMerged || currentFormPull, "Existe un Pull Request de feature/formulario-excusa hacia develop", "El Pull Request debe tener el origen y destino esperados."),
+        check(formMerged, "El Pull Request del formulario ya fue fusionado", "Fusiona el Pull Request del formulario cuando esté listo.")
+      ];
+
+      return result({ mission, passed: checks.every((item) => item.ok), checks });
+    }
+
+    case 9: {
       const checks = [
         check(branchExists(branches, "release/v1.0.0"), "Existe la rama release/v1.0.0", "La rama de release esperada debe existir en GitHub."),
         check(refName === "release/v1.0.0", "El avance ocurre en release/v1.0.0", "Publica este cambio desde la rama de release esperada."),
@@ -397,7 +407,7 @@ async function evaluateMission(mission, issue, context) {
       return result({ mission, passed: checks.every((item) => item.ok), checks });
     }
 
-    case 9: {
+    case 10: {
       const merged = await hasMergedPull(context, "release/v1.0.0", "main");
       const currentPull = payload?.pull_request;
       const correctPull = currentPull?.head?.ref === "release/v1.0.0" && currentPull?.base?.ref === "main";
@@ -409,7 +419,7 @@ async function evaluateMission(mission, issue, context) {
       return result({ mission, passed: checks.every((item) => item.ok), checks });
     }
 
-    case 10: {
+    case 11: {
       const checks = [
         check(refName === "hotfix/texto-boton", "El avance ocurre en hotfix/texto-boton", "Publica este cambio desde la rama de hotfix esperada."),
         check(indexWasTouched(issue, payload), "index.html fue modificado después de abrir esta misión", "Corrige únicamente el texto solicitado en `index.html`."),
@@ -420,7 +430,7 @@ async function evaluateMission(mission, issue, context) {
       return result({ mission, passed: checks.every((item) => item.ok), checks });
     }
 
-    case 11: {
+    case 12: {
       const mainMerged = await hasMergedPull(context, "hotfix/texto-boton", "main");
       const developMerged = await hasMergedPull(context, "hotfix/texto-boton", "develop");
       const checks = [
@@ -506,9 +516,9 @@ function targetMissionIds(payload, openIssues) {
       ["develop", 1],
       ["feature/hero-excusas", 2],
       ["feature/catalogo-excusas", 4],
-      ["feature/formulario-excusa", 6],
-      ["release/v1.0.0", 8],
-      ["hotfix/texto-boton", 10]
+      ["feature/formulario-excusa", 7],
+      ["release/v1.0.0", 9],
+      ["hotfix/texto-boton", 11]
     ]);
 
     return branchToMission.has(payload.ref) ? [branchToMission.get(payload.ref)] : [];
@@ -523,13 +533,13 @@ function targetMissionIds(payload, openIssues) {
       return [4, 5];
     }
     if (branch === "feature/formulario-excusa") {
-      return [6];
+      return [7];
     }
     if (branch === "release/v1.0.0") {
-      return [8];
+      return [9];
     }
     if (branch === "hotfix/texto-boton") {
-      return [10];
+      return [11];
     }
   }
 
@@ -540,14 +550,17 @@ function targetMissionIds(payload, openIssues) {
     if (head === "feature/hero-excusas" && base === "develop") {
       return [3];
     }
-    if (["feature/catalogo-excusas", "feature/formulario-excusa"].includes(head) && base === "develop") {
-      return [7];
+    if (head === "feature/catalogo-excusas" && base === "develop") {
+      return [6];
+    }
+    if (head === "feature/formulario-excusa" && base === "develop") {
+      return [8];
     }
     if (head === "release/v1.0.0" && base === "main") {
-      return [9];
+      return [10];
     }
     if (head === "hotfix/texto-boton" && ["main", "develop"].includes(base)) {
-      return [11];
+      return [12];
     }
   }
 

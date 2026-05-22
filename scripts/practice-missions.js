@@ -144,6 +144,22 @@ La misión se cerrará cuando la nota esté publicada en la rama solicitada.`
   },
   {
     id: 6,
+    title: "Integrar catálogo en develop",
+    body: `## Lo que debes realizar
+- Debe existir un Pull Request desde \`feature/catalogo-excusas\` hacia \`develop\`.
+- Ese Pull Request debe quedar fusionado.
+
+## Anotaciones importantes
+- No agregues cambios nuevos al HTML durante esta integración.
+- No mezcles ramas distintas a las solicitadas.
+- No agregues todavía el formulario.
+- No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
+
+## Criterio de cierre
+La misión se cerrará cuando el Pull Request solicitado esté fusionado hacia \`develop\`.`
+  },
+  {
+    id: 7,
     title: "Agregar formulario de solicitud",
     body: `## Lo que debes realizar
 - Trabaja en la rama \`feature/formulario-excusa\`.
@@ -199,13 +215,11 @@ La misión se cerrará cuando la nota esté publicada en la rama solicitada.`
 La misión se cerrará cuando la rama solicitada tenga el formulario con los campos requeridos.`
   },
   {
-    id: 7,
-    title: "Integrar catálogo y formulario",
+    id: 8,
+    title: "Integrar formulario en develop",
     body: `## Lo que debes realizar
-- Debe existir un Pull Request desde \`feature/catalogo-excusas\` hacia \`develop\`.
-- El Pull Request de \`feature/catalogo-excusas\` hacia \`develop\` debe quedar fusionado.
 - Debe existir un Pull Request desde \`feature/formulario-excusa\` hacia \`develop\`.
-- El Pull Request de \`feature/formulario-excusa\` hacia \`develop\` debe quedar fusionado.
+- Ese Pull Request debe quedar fusionado.
 
 ## Anotaciones importantes
 - No agregues cambios nuevos al HTML durante esta integración.
@@ -213,10 +227,10 @@ La misión se cerrará cuando la rama solicitada tenga el formulario con los cam
 - No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
 
 ## Criterio de cierre
-La misión se cerrará cuando ambos Pull Requests solicitados estén fusionados hacia \`develop\`.`
+La misión se cerrará cuando el Pull Request solicitado esté fusionado hacia \`develop\`.`
   },
   {
-    id: 8,
+    id: 9,
     title: "Preparar versión final",
     body: `## Lo que debes realizar
 - Trabaja en la rama \`release/v1.0.0\`.
@@ -242,7 +256,7 @@ La misión se cerrará cuando ambos Pull Requests solicitados estén fusionados 
 La misión se cerrará cuando la rama solicitada exista y el HTML tenga la sección final requerida.`
   },
   {
-    id: 9,
+    id: 10,
     title: "Publicar release en main",
     body: `## Lo que debes realizar
 - Debe existir un Pull Request desde \`release/v1.0.0\` hacia \`main\`.
@@ -256,7 +270,7 @@ La misión se cerrará cuando la rama solicitada exista y el HTML tenga la secci
 La misión se cerrará cuando el Pull Request solicitado esté fusionado hacia \`main\`.`
   },
   {
-    id: 10,
+    id: 11,
     title: "Corregir botón de emergencia",
     body: `## Lo que debes realizar
 - Trabaja en la rama \`hotfix/texto-boton\`.
@@ -282,7 +296,7 @@ La misión se cerrará cuando el Pull Request solicitado esté fusionado hacia \
 La misión se cerrará cuando la rama solicitada tenga una corrección pequeña y el texto incorrecto ya no aparezca.`
   },
   {
-    id: 11,
+    id: 12,
     title: "Integrar hotfix en main y develop",
     body: `## Lo que debes realizar
 - Debe existir un Pull Request desde \`hotfix/texto-boton\` hacia \`main\`.
