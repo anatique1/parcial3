@@ -10,14 +10,12 @@ import {
   GitHubApi,
   listAllIssues,
   listClosedPullRequests,
-  listIssueComments,
   reopenIssue,
   upsertIssueComment
 } from "./github-api.js";
 import { extractMissionId, getMissionById, getNextMission } from "./practice-missions.js";
 
-const ACTIONS_BOT = "github-actions[bot]";
-const TEMPORARY_CONFIRMATION_PATTERN = /\bcambio\s+temporal\s+protegido\b/i;
+const CATALOG_NOTE = "Todas las excusas fueron revisadas por el comité de despliegues dudosos.";
 const EXCUSE_TITLES = [
   "El servidor estaba reflexionando",
   "Funciona en mi máquina",
@@ -218,6 +216,23 @@ function validateCatalog(markup, { strictScope = false } = {}) {
   return checks;
 }
 
+function validateCatalogNote(markup, { strictScope = false } = {}) {
+  const $ = loadHtml(markup);
+  const checks = [
+    check(hasExactText($, "#catalogo-excusas .catalogo-nota", CATALOG_NOTE), "La nota del catálogo tiene el texto solicitado", `Agrega dentro de #catalogo-excusas una etiqueta con clase \`catalogo-nota\` y el texto exacto \`${CATALOG_NOTE}\`.`)
+  ];
+
+  if (strictScope) {
+    checks.push(
+      check($("#formulario-excusa").length === 0, "No se adelantó el formulario", "Deja el formulario para su misión correspondiente."),
+      check($("#version-final").length === 0, "No se adelantó la sección de versión final", "Deja la versión final para la release."),
+      check(containsText(markup, "Enbiar excusa"), "No se adelantó el hotfix del botón", "No corrijas todavía el texto `Enbiar excusa`.")
+    );
+  }
+
+  return checks;
+}
+
 function validateForm(markup, { strictScope = false } = {}) {
   const $ = loadHtml(markup);
   const form = $("#formulario-excusa");
@@ -255,6 +270,7 @@ function validateRelease(markup) {
   return [
     ...validateHero(markup),
     ...validateCatalog(markup),
+    ...validateCatalogNote(markup),
     ...validateForm(markup),
     check(versionSection.length === 1, "Existe la sección #version-final", "Agrega una sección con `id=\"version-final\"`."),
     check(versionText.includes("Versión 1.0.0"), "La sección final contiene Versión 1.0.0", "Incluye exactamente el texto `Versión 1.0.0`."),
@@ -283,28 +299,6 @@ async function getClosedPulls(context) {
 async function hasMergedPull(context, head, base) {
   const pulls = await getClosedPulls(context);
   return pulls.some((pull) => pull.head?.ref === head && pull.base?.ref === base && pull.merged_at);
-}
-
-function isCommentOnIssue(payload, issue) {
-  return eventName() === "issue_comment" && payload?.issue?.number === issue.number;
-}
-
-function commentConfirmsTemporaryChange(commentBody = "") {
-  return TEMPORARY_CONFIRMATION_PATTERN.test(commentBody);
-}
-
-async function hasTemporaryChangeConfirmation(context, issue) {
-  if (isCommentOnIssue(context.payload, issue)) {
-    return commentConfirmsTemporaryChange(context.payload?.comment?.body || "");
-  }
-
-  if (!context.issueComments.has(issue.number)) {
-    context.issueComments.set(issue.number, await listIssueComments(context.api, issue.number));
-  }
-
-  return context.issueComments
-    .get(issue.number)
-    .some((comment) => comment.user?.login !== ACTIONS_BOT && commentConfirmsTemporaryChange(comment.body || ""));
 }
 
 async function evaluateMission(mission, issue, context) {
@@ -356,10 +350,11 @@ async function evaluateMission(mission, issue, context) {
     }
 
     case 5: {
-      const confirmed = await hasTemporaryChangeConfirmation(context, issue);
       const checks = [
-        check(branchExists(branches, "feature/catalogo-excusas"), "La rama feature/catalogo-excusas existe", "La misión espera evidencia asociada a la rama del catálogo."),
-        check(confirmed, "Comentaste cambio temporal protegido en este issue", "Después de proteger el cambio temporal, comenta exactamente `cambio temporal protegido`.")
+        check(refName === "feature/catalogo-excusas", "El avance ocurre en feature/catalogo-excusas", "Publica este cambio desde la rama esperada."),
+        check(indexWasTouched(issue, payload), "index.html fue modificado después de abrir esta misión", "Agrega la nota solicitada dentro del catálogo."),
+        ...validateCatalog(html),
+        ...validateCatalogNote(html, { strictScope: true })
       ];
 
       return result({ mission, passed: checks.every((item) => item.ok), checks });
@@ -525,7 +520,7 @@ function targetMissionIds(payload, openIssues) {
       return [2];
     }
     if (branch === "feature/catalogo-excusas") {
-      return [4];
+      return [4, 5];
     }
     if (branch === "feature/formulario-excusa") {
       return [6];
@@ -554,15 +549,6 @@ function targetMissionIds(payload, openIssues) {
     if (head === "hotfix/texto-boton" && ["main", "develop"].includes(base)) {
       return [11];
     }
-  }
-
-  if (eventName() === "issue_comment") {
-    if (payload?.sender?.login === ACTIONS_BOT) {
-      return [];
-    }
-
-    const missionId = missionIdFromIssue(payload?.issue || {});
-    return missionId === 5 ? [5] : [];
   }
 
   return [];
@@ -644,8 +630,7 @@ async function main() {
     payload,
     issues,
     branches: listBranches(),
-    closedPulls: null,
-    issueComments: new Map()
+    closedPulls: null
   };
 
   for (const issue of openMissionIssues) {

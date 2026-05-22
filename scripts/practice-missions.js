@@ -115,28 +115,32 @@ La misión se cerrará cuando la rama solicitada tenga el catálogo con las tarj
   },
   {
     id: 5,
-    title: "Proteger un cambio temporal",
+    title: "Agregar nota al catálogo",
     body: `## Lo que debes realizar
-- Trabaja sobre \`feature/catalogo-excusas\`.
-- En \`index.html\`, crea de forma temporal este texto visible: \`BORRADOR TEMPORAL DE EXCUSA\`.
-- Protege ese cambio fuera del historial antes de continuar.
-- El texto \`BORRADOR TEMPORAL DE EXCUSA\` no debe quedar publicado en el HTML final.
-- Cuando termines, comenta en este issue exactamente: \`cambio temporal protegido\`.
+- Trabaja en la rama \`feature/catalogo-excusas\`.
+- Modifica \`index.html\` para agregar una nota visible al catálogo.
 
-## Cambio temporal exacto en index.html
-- Puedes poner temporalmente esta línea dentro de \`#catalogo-excusas\`:
+## Cambio exacto en index.html
+- Dentro de la sección \`#catalogo-excusas\`, justo después de esta línea:
 
 ~~~html
-<p>BORRADOR TEMPORAL DE EXCUSA</p>
+        <h2>Catálogo de excusas aprobadas</h2>
+~~~
+
+- Agrega exactamente esta línea:
+
+~~~html
+        <p class="catalogo-nota">Todas las excusas fueron revisadas por el comité de despliegues dudosos.</p>
 ~~~
 
 ## Anotaciones importantes
-- No agregues el formulario.
-- No agregues la sección de versión final.
+- No agregues todavía el formulario.
+- No agregues todavía la sección de versión final.
 - No corrijas todavía el botón del pie de página que dice \`Enbiar excusa\`.
+- No cambies las tarjetas del catálogo si ya fueron aprobadas.
 
 ## Criterio de cierre
-La misión se cerrará cuando exista el comentario exacto solicitado en este issue.`
+La misión se cerrará cuando la nota esté publicada en la rama solicitada.`
   },
   {
     id: 6,

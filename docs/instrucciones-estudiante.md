@@ -23,7 +23,7 @@ Cada misión te dirá:
 
 ## Revisión automática
 
-El workflow **Validar progreso de misiones** revisa ramas, Pull Requests, comentarios de evidencia y contenido de `index.html`.
+El workflow **Validar progreso de misiones** revisa ramas, Pull Requests y contenido de `index.html`.
 
 Si una misión cumple los criterios, el workflow cerrará el issue y creará la siguiente misión. Si falta algo, dejará una revisión breve en el issue.
 
