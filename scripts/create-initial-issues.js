@@ -1,4 +1,4 @@
-import { createMissionIssue, findMissionIssue, getRepositoryFromEnv, getTokenFromEnv, GitHubApi, listAllIssues } from "./github-api.js";
+import { createMissionIssue, findMissionIssue, getRepositoryFromEnv, getTokenFromEnv, GitHubApi, listAllIssues, updateMissionIssue } from "./github-api.js";
 import { getMissionById } from "./practice-missions.js";
 
 async function main() {
@@ -27,6 +27,7 @@ async function main() {
   for (const mission of missionsToCreate) {
     const duplicate = findMissionIssue(existingIssues, mission);
     if (duplicate) {
+      await updateMissionIssue(api, duplicate, mission);
       console.log(`La misión ${mission.id} ya existe como issue #${duplicate.number}. No se duplica.`);
       continue;
     }

@@ -10,10 +10,12 @@ import {
   GitHubApi,
   listAllIssues,
   listClosedPullRequests,
+  missionTitleWithoutNumber,
   reopenIssue,
+  updateMissionIssue,
   upsertIssueComment
 } from "./github-api.js";
-import { extractMissionId, getMissionById, getNextMission } from "./practice-missions.js";
+import { extractMissionId, getMissionById, getNextMission, missions } from "./practice-missions.js";
 
 const CATALOG_NOTE = "Todas las excusas fueron revisadas por el comité de despliegues dudosos.";
 const EXCUSE_TITLES = [
@@ -506,6 +508,64 @@ function missionIdFromIssue(issue) {
   return extractMissionId(`${issue.title || ""}\n${issue.body || ""}`);
 }
 
+async function normalizeRenumberedMissionIssues(api, issues) {
+  const missionByTitle = new Map(missions.map((mission) => [mission.title, mission]));
+  const refreshed = [];
+
+  for (const issue of issues) {
+    const mission = missionByTitle.get(missionTitleWithoutNumber(issue.title || ""));
+    if (!mission) {
+      refreshed.push(issue);
+      continue;
+    }
+
+    const currentId = missionIdFromIssue(issue);
+    if (currentId !== mission.id || !((issue.body || "").includes(`gitflow-examen:mission=${mission.id}`))) {
+      const updated = await updateMissionIssue(api, issue, mission);
+      console.log(`Issue #${issue.number} renumerado como misión ${mission.id}: ${mission.title}`);
+      refreshed.push(updated);
+    } else {
+      refreshed.push(issue);
+    }
+  }
+
+  return refreshed;
+}
+
+async function closeDuplicateMissionIssues(api, issues) {
+  const byMission = new Map();
+
+  for (const issue of issues) {
+    const missionId = missionIdFromIssue(issue);
+    if (!missionId) {
+      continue;
+    }
+
+    if (!byMission.has(missionId)) {
+      byMission.set(missionId, []);
+    }
+    byMission.get(missionId).push(issue);
+  }
+
+  for (const [missionId, duplicates] of byMission) {
+    if (duplicates.length <= 1) {
+      continue;
+    }
+
+    const ordered = [...duplicates].sort((a, b) => a.number - b.number);
+    const [keep, ...extras] = ordered;
+    console.log(`Misión ${missionId} tiene issues duplicados. Se conserva #${keep.number}.`);
+
+    for (const extra of extras) {
+      if (extra.state === "open") {
+        await closeIssue(api, extra.number, "not_planned");
+        extra.state = "closed";
+        console.log(`Issue duplicado #${extra.number} cerrado.`);
+      }
+    }
+  }
+}
+
 function targetMissionIds(payload, openIssues) {
   if (eventName() === "workflow_dispatch") {
     return openIssues.map(missionIdFromIssue).filter(Boolean);
@@ -575,6 +635,9 @@ async function createNextMissionIfNeeded(api, issues, completedMission) {
 
   const duplicate = findMissionIssue(issues, nextMission);
   if (duplicate) {
+    const updated = await updateMissionIssue(api, duplicate, nextMission);
+    Object.assign(duplicate, updated);
+
     if (duplicate.state === "closed") {
       const reopened = await reopenIssue(api, duplicate.number);
       console.log(`La siguiente misión ya existía cerrada. Se reabrió el issue #${duplicate.number}.`);
@@ -626,7 +689,9 @@ async function main() {
 
   const { owner, repo } = getRepositoryFromEnv();
   const api = new GitHubApi({ owner, repo, token: getTokenFromEnv() });
-  const issues = await listAllIssues(api);
+  let issues = await listAllIssues(api);
+  issues = await normalizeRenumberedMissionIssues(api, issues);
+  await closeDuplicateMissionIssues(api, issues);
   const openMissionIssues = issues
     .filter((issue) => issue.state === "open")
     .filter((issue) => missionIdFromIssue(issue))

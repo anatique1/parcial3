@@ -68,14 +68,42 @@ export async function listAllIssues(api) {
   return issues.filter((issue) => !issue.pull_request);
 }
 
+export function missionTitleWithoutNumber(title = "") {
+  return title.replace(/^\[?Misi[oó]n\s+0?\d+\]?\s*/i, "").trim();
+}
+
+export function missionIssueIsCurrent(issue, mission) {
+  const body = issue.body || "";
+  return issue.title === missionIssueTitle(mission) && body.includes(missionMarker(mission.id));
+}
+
 export function findMissionIssue(issues, mission) {
   const expectedMarker = missionMarker(mission.id);
   const expectedTitle = missionIssueTitle(mission);
 
   return issues.find((issue) => {
     const body = issue.body || "";
-    return body.includes(expectedMarker) || issue.title === expectedTitle;
+    const titleWithoutNumber = missionTitleWithoutNumber(issue.title || "");
+    const titleMatches = issue.title === expectedTitle || titleWithoutNumber === mission.title;
+    const markerMatchesCurrentTitle = body.includes(expectedMarker) && titleWithoutNumber === mission.title;
+
+    return titleMatches || markerMatchesCurrentTitle;
   });
+}
+
+export async function updateMissionIssue(api, issue, mission) {
+  if (missionIssueIsCurrent(issue, mission)) {
+    return issue;
+  }
+
+  const { data } = await api.request("PATCH", `/issues/${issue.number}`, {
+    body: {
+      title: missionIssueTitle(mission),
+      body: missionIssueBody(mission)
+    }
+  });
+
+  return data;
 }
 
 export async function createMissionIssue(api, mission) {
